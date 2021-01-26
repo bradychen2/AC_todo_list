@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
+const methodOverride = require('method-override')
 const Todo = require('./models/todo')
 
 // Setup connection
@@ -29,11 +30,13 @@ app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 // Every requests need parsed by bodyParser
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
 
 app.get('/', (req, res) => {
   // Find all the Todo data, clean, and transfer it to an JavaScript data array
   Todo.find()
     .lean()
+    .sort({ _id: 'asc' })
     .then(todos => {
       res.render('index', { todos: todos })
     })
@@ -79,7 +82,7 @@ app.get('/todos/:id/edit', (req, res) => {
 })
 
 // Send the edit from
-app.post('/todos/:id/edit', (req, res) => {
+app.put('/todos/:id', (req, res) => {
   const id = req.params.id
   const { name, isDone } = req.body
   return Todo.findById(id)
@@ -93,7 +96,7 @@ app.post('/todos/:id/edit', (req, res) => {
 })
 
 // Delete item
-app.post('/todos/:id/delete', (req, res) => {
+app.delete('/todos/:id', (req, res) => {
   const id = req.params.id
   return Todo.findById(id)
     .then(todo => todo.remove())
