@@ -1,5 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const exphbs = require('express-handlebars')
 
 // Setup connection
 mongoose.connect('mongodb://localhost/todo_list', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -20,8 +21,13 @@ db.once('open', () => {
 const app = express()
 const port = 3000
 
+// Establish a layout engine and pass in exphbs parameters
+app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
+// 啟用樣板引擎
+app.set('view engine', 'hbs')
+
 app.get('/', (req, res) => {
-  res.send("This is main page")
+  res.render('index')
 })
 
 app.listen(port, () => {
