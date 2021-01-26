@@ -41,7 +41,17 @@ app.get('/', (req, res) => {
 })
 
 app.get('/todos/new', (req, res) => {
-  res.render('new')
+  // 建議都加上 return 
+  return res.render('new')
+})
+
+app.get('/todos/:id', (req, res) => {
+  const id = req.params.id
+  console.log(req.params)
+  return Todo.findById(id)
+    .lean()
+    .then((todo) => res.render('detail', { todo }))
+    .catch(error => console.log(error))
 })
 
 app.post('/todos', (req, res) => {

@@ -3,6 +3,8 @@
   {{#each todos}}
   <li>
     {{this.name}}
+    {{!-- mongoose will automatically create _id--}}
+    <a href="./todos/{{this._id}}">detail</a>
   </li>
   {{/each}}
 </ul>
