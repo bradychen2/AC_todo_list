@@ -1,13 +1,6 @@
-const mongoose = require('mongoose')
+require('../../config/mongoose')
 const Todo = require('../todo')
 
-mongoose.connect('mongodb://localhost/todo_list', { useNewUrlParser: true, useUnifiedTopology: true })
-
-const db = mongoose.connection
-
-db.on('error', () => {
-  console.log('mongodb error!')
-})
 
 db.once('open', () => {
   console.log('mongodb connected!')

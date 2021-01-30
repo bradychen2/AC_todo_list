@@ -1,25 +1,10 @@
 const express = require('express')
-const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const routes = require('./routes')
-
-// Setup connection
-mongoose.connect('mongodb://localhost/todo_list', { useNewUrlParser: true, useUnifiedTopology: true })
-
-// Get connected condition and assign to variable: db
-const db = mongoose.connection
-
-// Error listener
-db.on('error', () => {
-  console.log('mongodb error!')
-})
-
-// Open listener - successful connection
-db.once('open', () => {
-  console.log('mongodb connected!')
-})
+// Just need to be set, don't need assignment
+require('./config/mongoose')
 
 const app = express()
 const port = 3000
