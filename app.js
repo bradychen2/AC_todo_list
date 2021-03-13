@@ -1,7 +1,9 @@
 const express = require('express')
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
+const session = require('express-session')
 const methodOverride = require('method-override')
+const usePassport = require('./config/passport')
 const routes = require('./routes')
 // Just need to be set, don't need assignment
 require('./config/mongoose')
@@ -15,7 +17,15 @@ app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 // Every requests need parsed by bodyParser
 app.use(bodyParser.urlencoded({ extended: true }))
+
+app.use(session({
+  secret: "SuperSecretSecret",
+  resave: false,
+  saveUninitialized: true
+}))
 app.use(methodOverride('_method'))
+usePassport(app)
+
 app.use(routes)
 
 app.listen(PORT, () => {
