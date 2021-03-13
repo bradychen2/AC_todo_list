@@ -3,6 +3,7 @@ const router = express.Router()
 
 const home = require('./modules/home')
 const todos = require('./modules/todos')
+const user = require('./modules/users')
 
 // Direct the URL '/' to home module
 router.use('/', home)
