@@ -3,8 +3,8 @@ const router = express.Router()
 const Todo = require('../../models/todo')
 
 router.get('/', (req, res) => {
-  // Find all the Todo data, clean, and transfer it to an JavaScript data array
-  Todo.find()
+  const userId = req.user._id
+  Todo.find({ userId })
     .lean()
     .sort({ _id: 'asc' })
     .then(todos => {
